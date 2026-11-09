@@ -21,6 +21,7 @@ def split_ratings(ratings, test_frac=0.10, seed=0):
 
   return ratings.iloc[~is_test].copy(), ratings.iloc[is_test].copy()  # returns the integer
 
+train, test = split_ratings(ratings)
 user_ids = pd.Index(train["user_id"].unique())
 recipe_ids = pd.Index(train["recipe_code"].unique())
 N_USERS, N_ITEMS = len(user_ids), len(recipe_ids)
