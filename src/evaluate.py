@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os, urllib.request, zipfile
 
 url = "https://github.com/ryannewhouse11/FoodReviewData/releases/latest/download/recipereview.zip"
 urllib.request.urlretrieve(url, "/content/recipereview.zip")
