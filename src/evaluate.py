@@ -1,6 +1,26 @@
 import numpy as np
 import pandas as pd
 
+url = "https://github.com/ryannewhouse11/FoodReviewData/releases/latest/download/recipereview.zip"
+urllib.request.urlretrieve(url, "/content/recipereview.zip")
+
+with zipfile.ZipFile("/content/recipereview.zip") as z:
+  csv_files = [
+      name for name in z.namelist()
+      if name.lower().endswith(".csv") and not name.startswith("_MACOSX/")
+  ]
+  with z.open(csv_files[0]) as f:
+    ratings = pd.read_csv(
+        f,
+        sep=",",
+        header=0,
+        names=["num_records", "recipe_number", "recipe_code", "recipe_name",
+               "comment_id", "user_id", "user_name", "user_reputation", "created_at",
+               "reply_count", "thumbs_up", "thumbs_down", "stars", "best_score", "text"]
+    )
+
+
+
 def split_ratings(ratings, test_frac=0.10, seed=0):
   rng = np.random.default_rng(seed)
   is_test = np.zeros(len(ratings), dtype=bool)
