@@ -1,41 +1,14 @@
-{
-  "nbformat": 4,
-  "nbformat_minor": 0,
-  "metadata": {
-    "colab": {
-      "provenance": [],
-      "authorship_tag": "ABX9TyN2xwahLZIJQfVa8OetSwxc",
-      "include_colab_link": true
-    },
-    "kernelspec": {
-      "name": "python3",
-      "display_name": "Python 3"
-    },
-    "language_info": {
-      "name": "python"
-    }
-  },
-  "cells": [
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "id": "view-in-github",
-        "colab_type": "text"
-      },
-      "source": [
-        "<a href=\"https://colab.research.google.com/github/scottaudrey/svd-food-recommendation-system/blob/main/src/models.py\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
-      ]
-    },
-    {
-      "cell_type": "code",
-      "execution_count": null,
-      "metadata": {
-        "id": "xfUDgJRWqAWE"
-      },
-      "outputs": [],
-      "source": [
-        "bias_baseline"
-      ]
-    }
-  ]
-}
+import numpy as np
+
+def bias_baseline(R):
+    """Overall mean plus one user effect and one recipe effect."""
+    known = ~np.isnan(R)
+    mu = np.nanmean(R)
+    b_user = np.nanmean(R - mu, axis=1)
+    residual = R - mu - b_user[:, None]
+    n_item = known.sum(axis=0)
+    b_item = np.zeros(R.shape[1])
+    has_rating = n_item > 0
+    b_item[has_rating] = (
+        np.nansum(residual, axis=0)[has_rating] / n_item[has_rating])
+    return mu, b_user, b_item
