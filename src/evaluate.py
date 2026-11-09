@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def split_ratings(ratings, test_frac=0.10, seed=0):
   rng = np.random.default_rng(seed)
