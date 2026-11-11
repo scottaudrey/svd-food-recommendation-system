@@ -21,7 +21,7 @@ def bias_baseline(R):
 
     has_item_rating = n_item > 0
 
-     b_item[has_item_rating] = (
+    b_item[has_item_rating] = (
         np.nansum(residual, axis=0)[has_item_rating]
         / n_item[has_item_rating]
     )
