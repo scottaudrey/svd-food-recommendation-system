@@ -48,11 +48,13 @@ recipe_ids = pd.Index(train["recipe_code"].unique())
 N_USERS, N_ITEMS = len(user_ids), len(recipe_ids)
 
 def to_matrix(df):
-    R = np.full((N_USERS, N_ITEMS), np.nan)
-    u = user_ids.get_indexer(df["user_id"])
-    i = recipe_ids.get_indexer(df["recipe_code"])
-    R[u, i] = df["stars"].to_numpy()
-    return R
+  n_users = int(df["user_id"].max())
+  n_items = int(df["recipe_code"].max())
+  R = np.full((n_users, n_items), np.nan)
+  u = df["user_id"].to_numpy(dtype=int) - 1
+  i = df["recipe_code"].to_numpy(dtype=int) - 1
+  R[u, i] = df["stars"].to_numpy(dtype=float)
+  return R
 
 def rmse(pred, truth):
   ## Root mean squared error, measured in starts.
